@@ -2,29 +2,35 @@
   /* Layout adjustments for contained scrolling
   /* ------------------------------------------------------------------------ */
 
-  /* Scroll columns individually on mobile */
-  @media (max-width: 639px) {
-    body.contained-scrolling {
-      block-size: 100dvh;
-      grid-template-rows: 1fr var(--footer-height);
+  body.contained-scrolling {
+    block-size: 100dvh;
+    grid-template-rows: 1fr var(--footer-height);
+    overflow: hidden;
 
-      #global-container {
-        display: grid;
-        grid-template-rows: auto 1fr;
-        overflow: hidden;
-      }
+    #global-container {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-block-size: 0;
+      overflow: hidden;
+    }
 
-      #main {
-        display: grid;
-        grid-template-rows: auto auto 1fr;
-        overflow: auto;
-        padding: 0;
-      }
+    #main {
+      display: flex;
+      flex-direction: column;
+      min-block-size: 0;
+      overflow: auto;
+      padding: 0;
+    }
 
-      /* Adapt the grid to public views (no filters or watchers sections) */
-      &.public #main {
-        grid-template-rows: 1fr;
-      }
+    #main:has(.card-columns) {
+      overflow: hidden;
+    }
+
+    .card-columns {
+      block-size: 100%;
+      flex: 1 1 auto;
+      min-block-size: 0;
+      overflow: scroll;
     }
   }
 
@@ -55,8 +61,8 @@
     margin-inline: auto;
     max-inline-size: var(--main-width);
     outline: none;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto;
+    scrollbar-gutter: stable both-edges;
     position: relative;
 
     /* When it has something expanded */
@@ -88,6 +94,30 @@
     }
   }
 
+  .card-columns--without-special-columns {
+    grid-template-columns: minmax(min-content, auto);
+    justify-content: safe center;
+
+    &:has(.is-expanded) {
+      grid-template-columns: minmax(min-content, auto);
+    }
+
+    .cards__transition-container {
+      block-size: auto;
+      min-block-size: 100%;
+    }
+
+    .cards__list {
+      overflow: visible;
+    }
+
+    @media (max-width: 639px) {
+      &:not(:has(.is-expanded)) {
+        grid-template-columns: auto;
+      }
+    }
+  }
+
   .card-columns__left,
   .card-columns__right {
     align-items: stretch;
@@ -114,6 +144,11 @@
     justify-content: start;
     padding-inline-end: var(--column-gap);
     margin-inline-end: auto;
+
+    .card-columns--without-special-columns & {
+      min-inline-size: max-content;
+      padding-inline-start: var(--column-gap);
+    }
   }
 
   /* Column
@@ -231,6 +266,10 @@
     gap: var(--cards-gap);
     overflow-x: hidden;
     overflow-y: auto;
+
+    .is-collapsed & .blank-slate {
+      display: none;
+    }
 
     .is-expanded & {
       padding: var(--column-padding) var(--column-padding) calc(var(--column-padding) + var(--custom-safe-inset-bottom));

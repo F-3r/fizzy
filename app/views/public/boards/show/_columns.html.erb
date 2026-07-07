@@ -1,17 +1,11 @@
 <%= turbo_frame_tag :cards_container do %>
-  <div class="card-columns hide-scrollbar"
+  <div class="card-columns card-columns--without-special-columns"
     data-controller="collapsible-columns"
     data-collapsible-columns-board-value="<%= board.id %>"
     data-collapsible-columns-collapsed-class="is-collapsed"
     data-collapsible-columns-expanded-class="is-expanded"
     data-collapsible-columns-no-transitions-class="no-transitions"
     data-collapsible-columns-title-not-visible-class="is-off-screen">
-
-    <div class="card-columns__left">
-      <%= render "public/boards/show/not_now", board: board %>
-    </div>
-
-    <%= render "public/boards/show/stream", board: board, page: page %>
 
     <div class="card-columns__right">
       <%= render partial: "public/boards/show/column", collection: board.columns, cached: true %>

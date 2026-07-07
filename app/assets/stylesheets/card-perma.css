@@ -485,7 +485,7 @@
       translate: 0 calc(-1 * var(--half-btn-height));
     }
 
-    form {
+    form:not(.card-perma__new-card-form) {
       background-color: var(--color-canvas);
       border-radius: 99rem;
     }
@@ -504,6 +504,13 @@
     @media (max-width: 639px) {
       flex-direction: column;
     }
+  }
+
+  .card-perma__new-card-form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--inline-space-half);
   }
 
   .card-perma__notch-new-card-buttons {

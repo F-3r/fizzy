@@ -13,6 +13,12 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   test "show" do
     get board_path(boards(:writebook))
     assert_response :success
+    assert_select ".board-toolbar"
+    assert_select ".board-toolbar__title", text: boards(:writebook).name
+    assert_select ".board-toolbar__filters .filters"
+    assert_select ".board-toolbar__actions a[href='#{board_cards_path(boards(:writebook))}']", text: /Create/
+    assert_select "#maybe", count: 0
+    assert_select "#not-now", count: 0
   end
 
   test "invalidates page title cache when account updates" do
@@ -39,6 +45,8 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   test "edit" do
     get edit_board_path(boards(:writebook))
     assert_response :success
+    assert_select ".settings__section", text: /Webhooks/
+    assert_select "a[href='#{board_webhooks_path(boards(:writebook))}']", text: /Manage webhooks/
   end
 
   test "edit renders 11-day auto-close option last on the knob" do

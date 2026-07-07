@@ -1,0 +1,14 @@
+<% if Current.user.admin? %>
+  <section class="settings__section">
+    <h2 class="divider txt-large">Webhooks</h2>
+    <p>Notify another application when something happens on this board.</p>
+
+    <%= link_to board_webhooks_path(board), class: "btn txt-small" do %>
+      <%= icon_tag "world" %>
+      <span>Manage webhooks</span>
+      <% if board.webhooks.any? %>
+        <span class="txt-subtle">(<%= pluralize(board.webhooks.count, "webhook") %>)</span>
+      <% end %>
+    <% end %>
+  </section>
+<% end %>

@@ -10,6 +10,10 @@ class Public::BoardsControllerTest < ActionDispatch::IntegrationTest
   test "show" do
     get published_board_path(boards(:writebook))
     assert_response :success
+    assert_select ".board-toolbar", count: 0
+    assert_select "a[href='#{board_cards_path(boards(:writebook))}']", count: 0
+    assert_select "#maybe", count: 0
+    assert_select "#not-now", count: 0
   end
 
   test "not found if the board is not published" do

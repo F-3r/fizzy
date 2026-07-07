@@ -1,32 +1,39 @@
 <% @page_title = @board.name %>
 <% @body_class = "contained-scrolling" %>
+<% @header_class = "header--board" %>
+<% @hide_header_menu = true %>
 <% turbo_exempts_page_from_cache %>
 
 <%= turbo_stream_from @board %>
 
 <% content_for :header do %>
-  <div class="header__actions header__actions--start hide-on-native">
-    <%= link_to_webhooks(@board) if Current.user.admin? %>
+  <div class="board-toolbar">
+    <h1 class="board-toolbar__title" data-bridge--title-target="header">
+      <span class="overflow-ellipsis"><%= @board.name %></span>
+    </h1>
+
+    <div class="board-toolbar__filters">
+      <%= render "filters/settings",
+            filter_url: board_path(@board),
+            user_filtering: @user_filtering,
+            no_filtering_url: board_path(@board) do |form| %>
+        <%= hidden_field_tag "board_ids[]", @board.id %>
+      <% end %>
+    </div>
+
+    <div class="board-toolbar__actions hide-on-native">
+      <%= render "boards/add_card_button", add_card_url: board_cards_path(@board) %>
+      <%= link_to_edit_board @board %>
+      <span class="board-toolbar__separator" aria-hidden="true"></span>
+      <%= render "my/menu", compact: true %>
+    </div>
   </div>
-
-  <h1 class="header__title divider divider--fade full-width" data-bridge--title-target="header">
-    <span class="overflow-ellipsis"><%= @board.name %></span>
-  </h1>
-
-  <div class="header__actions header__actions--end hide-on-native">
-    <%= link_to_edit_board @board %>
-  </div>
-<% end %>
-
-<%= render "filters/settings", filter_url: board_path(@board), user_filtering: @user_filtering, no_filtering_url: board_path(@board) do |form| %>
-  <%= hidden_field_tag "board_ids[]", @board.id %>
 <% end %>
 
 <%= turbo_frame_tag :cards_container do %>
   <% if @filter.used?(ignore_boards: true) %>
     <%= render "boards/show/filtered_cards", page: @page %>
   <% else %>
-    <%= render "columns/show/add_card_button", board: @board %>
     <%= render "boards/show/columns", page: @page, board: @board %>
   <% end %>
 <% end %>

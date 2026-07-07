@@ -13,7 +13,7 @@
     <div id="global-container" data-controller="bridge--buttons bridge--overflow-menu">
       <header class="header header--mobile-actions-stack <%= @header_class %>" id="header">
         <a href="#main" class="header__skip-navigation btn" data-turbo="false">Skip to main content</a>
-        <%= render "my/menu" if Current.user %>
+        <%= render "my/menu" if Current.user && !@hide_header_menu %>
         <%= yield :header %>
       </header>
 

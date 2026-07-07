@@ -119,10 +119,89 @@
     }
   }
 
+  /* Board work header
+  /* ------------------------------------------------------------------------ */
+
+  .header--board {
+    display: block;
+    inline-size: 100dvw;
+    margin-inline: auto;
+    max-inline-size: var(--main-width);
+    padding-block: calc(var(--block-space-half) + var(--custom-safe-inset-top)) var(--block-space-half);
+
+    nav {
+      grid-area: auto;
+      margin-inline: 0;
+    }
+  }
+
+  .board-toolbar {
+    align-items: center;
+    display: grid;
+    gap: var(--inline-space);
+    grid-template-columns: minmax(12rem, 1fr) minmax(16rem, auto) minmax(max-content, 1fr);
+    inline-size: 100%;
+  }
+
+  .board-toolbar__title {
+    color: inherit;
+    font-size: var(--text-large);
+    font-weight: 900;
+    margin: 0;
+    min-inline-size: 0;
+    text-align: start;
+  }
+
+  .board-toolbar__filters {
+    inline-size: min(42rem, 45vw);
+    justify-self: center;
+    min-inline-size: 0;
+  }
+
+  .board-toolbar__filters .filters {
+    margin-block-end: 0;
+  }
+
+  .board-toolbar__actions {
+    align-items: center;
+    display: flex;
+    font-size: var(--text-x-small);
+    gap: var(--inline-space-half);
+    justify-self: end;
+    min-inline-size: max-content;
+  }
+
+  .board-toolbar__separator {
+    align-self: stretch;
+    border-inline-start: 1px solid var(--color-ink-lighter);
+    min-block-size: 1.5rem;
+  }
+
+  @media (max-width: 639px) {
+    .header--board {
+      display: grid;
+    }
+
+    .board-toolbar {
+      grid-template-columns: 1fr;
+    }
+
+    .board-toolbar__title,
+    .board-toolbar__filters,
+    .board-toolbar__actions {
+      inline-size: 100%;
+      justify-self: stretch;
+    }
+
+    .board-toolbar__actions {
+      justify-content: center;
+    }
+  }
+
   /* Optional class to stack header actions on small screens
   /* ------------------------------------------------------------------------ */
 
-  .header--mobile-actions-stack {
+  .header--mobile-actions-stack:not(.header--board) {
     @media (max-width: 639px) {
       grid-template-areas:
         "actions-start menu actions-end"

@@ -1,4 +1,4 @@
-<%= tag.div class: "card-columns hide-scrollbar", data: {
+<%= tag.div class: "card-columns card-columns--without-special-columns", data: {
       controller: "collapsible-columns drag-and-drop drag-and-strum navigable-list card-hotkeys",
       drag_and_drop_dragged_item_class: "drag-and-drop__dragged-item",
       drag_and_drop_hover_container_class: "drag-and-drop__hover-container",
@@ -24,12 +24,6 @@
         drop->drag-and-drop#drop
         dragend->drag-and-drop#dragEnd
         click@document->navigable-list#deselectWhenClickingOutside" } do %>
-  <div class="card-columns__left">
-    <%= render "boards/show/not_now", board: board %>
-  </div>
-
-  <%= render "boards/show/stream", board: board, page: page %>
-
   <div class="card-columns__right">
     <%= render partial: "boards/show/column", collection: board.columns.sorted, cached: ->(column){ [ column, column.leftmost?, column.rightmost? ] } %>
     <%= render "boards/show/closed", board: board %>

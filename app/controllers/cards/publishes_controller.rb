@@ -2,6 +2,7 @@ class Cards::PublishesController < ApplicationController
   include CardScoped
 
   def create
+    @card.column = selected_column
     @card.publish
 
     respond_to do |format|
@@ -21,5 +22,9 @@ class Cards::PublishesController < ApplicationController
   private
     def add_another_param?
       params[:creation_type] == "add_another"
+    end
+
+    def selected_column
+      @selected_column ||= @board.columns.find(params[:column_id]) if params[:column_id].present?
     end
 end

@@ -10,6 +10,10 @@ class Cards::DraftsControllerTest < ActionDispatch::IntegrationTest
 
     get card_draft_path(card)
     assert_response :success
+    assert_select ".card__initial-status", text: /Backlog/
+    assert_select ".card__initial-status template input[name='column_id'][form='#{dom_id(card, :publish_form)}']"
+    assert_select ".card__initial-status [role='checkbox'][data-combobox-value='']", text: /Backlog/
+    assert_select ".card__initial-status [role='checkbox'][data-combobox-value='#{columns(:writebook_in_progress).id}']", text: /In progress/
   end
 
   test "show redirects to card when published" do

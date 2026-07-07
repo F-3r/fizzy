@@ -1,0 +1,43 @@
+<div class="card__board card__initial-status"
+    data-controller="dialog filter combobox navigable-list"
+    data-combobox-default-label-value="Backlog"
+    data-combobox-default-value-value=""
+    data-action="keydown.esc->dialog#close:stop click@document->dialog#closeOnClickOutside dialog:close@document->filter#clearInput dialog:show@document->navigable-list#reset keydown->navigable-list#navigate filter:changed->navigable-list#reset">
+  <div class="card__board-name card__initial-status-name">
+    <span class="overflow-ellipsis" data-combobox-target="label"></span>
+    <%= icon_tag "caret-down", class: "txt-xx-small" %>
+  </div>
+
+  <button type="button" class="card__board-picker-button btn btn--plain" data-action="click->dialog#open:stop" aria-label="Choose initial status for this card"></button>
+
+  <template data-combobox-target="hiddenFieldTemplate">
+    <%= hidden_field_tag :column_id, nil, form: form_id %>
+  </template>
+
+  <dialog class="popup popup--align-left panel flex-column align-start gap-half fill-white shadow" data-dialog-target="dialog">
+    <%= filter_title "Initial status…" %>
+
+    <% if card.board.columns.any? %>
+      <%= text_field_tag nil, nil, id: nil, placeholder: "Filter…", class: "input input--transparent txt-small margin-block-half font-weight-normal", autofocus: true,
+            type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", dialog_target: "focusMouse", action: "input->filter#filter" } %>
+    <% end %>
+
+    <ul class="popup__list margin-block-start-half margin-none-block-end" data-filter-target="list">
+      <li class="popup__item" data-filter-target="item" data-navigable-list-target="item" data-combobox-target="item" data-combobox-value="" data-combobox-label="Backlog" role="checkbox" aria-checked="true">
+        <button type="button" class="popup__btn btn" data-action="dialog#close combobox#change">
+          <span class="overflow-ellipsis flex-item-grow">Backlog</span>
+          <%= icon_tag "check", class: "checked flex-item-no-shrink flex-item-justify-end", style: "--icon-size: 1em" %>
+        </button>
+      </li>
+
+      <% card.board.columns.sorted.each do |column| %>
+        <li class="popup__item" data-filter-target="item" data-navigable-list-target="item" data-combobox-target="item" data-combobox-value="<%= column.id %>" data-combobox-label="<%= column.name %>" role="checkbox" aria-checked="false">
+          <button type="button" class="popup__btn btn" data-action="dialog#close combobox#change">
+            <span class="overflow-ellipsis flex-item-grow"><%= column.name %></span>
+            <%= icon_tag "check", class: "checked flex-item-no-shrink flex-item-justify-end", style: "--icon-size: 1em" %>
+          </button>
+        </li>
+      <% end %>
+    </ul>
+  </dialog>
+</div>

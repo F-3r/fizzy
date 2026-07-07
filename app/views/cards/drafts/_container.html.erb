@@ -9,6 +9,7 @@
         <header class="card__header">
           <%= render "cards/display/perma/board", card: card %>
           <%= render "cards/display/perma/tags", card: card %>
+          <%= render "cards/drafts/initial_status_picker", card: card, form_id: dom_id(card, :publish_form) %>
         </header>
 
         <div class="card__body justify-space-between">

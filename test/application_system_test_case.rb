@@ -2,6 +2,7 @@ require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   browser_options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    opts.binary = ENV["CHROME_BIN"] if ENV["CHROME_BIN"].present?
     opts.add_argument("--window-size=1200,800")
     opts.add_argument("--disable-extensions")
     # Disable non-foreground tabs from getting a lower process priority

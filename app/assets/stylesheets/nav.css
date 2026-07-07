@@ -19,13 +19,13 @@
       &:hover {
         --input-background: var(--color-ink-lighter);
 
-        span {
+        > span:not(.for-screen-reader):not(.icon) {
           background: var(--color-ink-lighter);
         }
       }
     }
 
-    span {
+    > span:not(.for-screen-reader):not(.icon) {
       background: var(--color-ink-lightest);
       block-size: auto;
       border-radius: 0.3125em;
@@ -53,8 +53,23 @@
     }
   }
 
+  .nav__trigger--compact {
+    --btn-size: 2rem;
+    --btn-padding: 0;
+    --icon-size: 75%;
+
+    aspect-ratio: 1;
+    block-size: var(--btn-size);
+    inline-size: var(--btn-size);
+    margin-block-start: 0;
+  }
+
   /* Dialog
   /* ------------------------------------------------------------------------ */
+
+  .nav--compact {
+    position: relative;
+  }
 
   .nav__menu.popup {
     --panel-border-color: var(--color-selected-dark);
@@ -80,6 +95,12 @@
     transform-origin: top center;
     translate: 0;
     z-index: var(--z-nav);
+
+    .nav--compact & {
+      inset: calc(100% + var(--inline-space-half)) 0 auto auto;
+      margin-inline: 0;
+      transform-origin: top right;
+    }
 
     @media (max-height: 668px) {
       max-block-size: calc(100dvh - var(--block-space));

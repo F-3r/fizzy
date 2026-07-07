@@ -1,0 +1,6 @@
+<%= link_to add_card_url, class: "filters__action btn btn--link btn--circle-mobile txt-x-small",
+      data: { turbo_method: :post, turbo_frame: "_top", controller: "hotkey", action: "keydown.c@document->hotkey#click", bridge__buttons_target: "button", bridge_title: "Add card", bridge_display_as_primary_action: true, bridge_display_title: true, bridge_icon_url: bridge_icon("add") } do %>
+  <%= icon_tag "add" %>
+  <span class="overflow-ellipsis">Create</span>
+  <kbd class="hide-on-touch">C</kbd>
+<% end %>
